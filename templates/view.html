@@ -1,2 +1,15 @@
-O, HAI!
-IT LOOKS LIKE YOU UPLOADED STH?
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>{{ photo.title }}</h2>
+<img width="640px" height="640px" alt="{{ photo.title }}" src="{{ photo.url }}" />
+<br />
+<ul>
+<li><a href="/photos/filter/{{ photo.id }}/invert/">INV0RT COLURZ</a></li>
+<li><a href="/photos/filter/{{ photo.id }}/auto_contrast/">AUTOMAGIC CONTRASTZ</a></li>
+<li><a href="/photos/filter/{{ photo.id }}/posterize/">LESS COLURZ</a></li>
+<li><a href="/photos/filter/{{ photo.id }}/bluify/">MAKE IT BLU</a></li>
+<li><a href="/photos/filter/{{ photo.id }}/median/">LESS NOIZE</a></li>
+<li><a href="/photos/revert/{{ photo.id }}/">REVERTO O ORIGINALE</a></li>
+</ul>
+{% endblock %}

@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>{% block title %}Polar Droid{% endblock %}</title>
+    <meta name="description" content="Description of the content of this web page." />
+    {% load compress %}
+	{% compress css %}
+		<link rel="stylesheet" href="/uploads/css/base.ccss" type="text/css" charset="utf-8">
+	{% endcompress %}
+</head>
+<body>
+<header>
+<nav>
+	<h1>POLAR DROID</h1>
+	<ul>
+		<li><a href="#">UNO NO</a></li>
+		<li><a href="#">DOS</a></li>
+		<li><a href="#">TRES TRES</a></li>
+		<li><a href="#">QUATRO</a></li>
+	</ul>
+</nav>
+</header>
+
+<div id="content">
+	{% block content %}
+	{% endblock %}
+</div>
+
+</body>
+</html>
