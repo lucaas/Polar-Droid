@@ -1,0 +1,198 @@
+
+background_color = #1d2229
+
+light_text_color = #eee
+dark_text_color = #676b6f
+mid_text_color = #9a9ea3
+accent_color = #00bff3
+
+header_bg_color = #1c1c1c
+content_bg_color = #cdd2d7
+form_bg_color = #bbc0c4
+bright_bg_color = #e4e9ee
+error_bg_color = #E88772
+
+large_text_size = 25px
+page_width = 920px
+
+
+article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section:
+    display: block
+
+html:
+	background: $background_color url('/uploads/graphics/background.png')
+	font-family: 'Helvetica', 'Arial', sans-serif
+body:
+	width: $page_width + 2 * 10px
+	margin: 0 auto
+	background: url('/uploads/graphics/body-bg.png')
+
+header:
+	margin: 0 auto
+	width: $page_width
+	height: 100px
+	background: $header_bg_color url('/uploads/graphics/header.png')
+	
+	h1:
+		display: none
+	
+	ul:
+		float: right
+		width: 150px
+		padding: 10px
+		list-style-type: none
+		
+		li:		
+			text-align: right
+			margin-right: 20px	
+			a:
+				color: $mid_text_color
+				text-decoration: none
+				font-weight: bold
+				font-size: $large_text_size 
+				line-height: $large_text_size + 1px
+
+				
+				&:hover:
+					color: $accent_color
+					
+#bar:
+	margin: 0 auto
+	width: $page_width
+	height: $large_text_size
+	background: $bright_bg_color
+	border-bottom: $bright_bg_color.darken(10) 1px solid
+	
+	a:
+		float: right
+		padding: 0 10px
+		color: $mid_text_color
+		text-decoration: none
+		font-weight: bold
+		font-size: $large_text_size / 2
+		line-height: $large_text_size
+			
+		&:hover:
+			color: $accent_color
+			
+#content:
+	margin: 0 auto
+	width: $page_width - 2*20px
+	min-height: 400px
+	padding: 20px
+	background: $content_bg_color
+	
+h2:
+	color: $dark_text_color
+	text-align: center
+	font-weight: bold
+	font-size: $large_text_size
+
+.errorlist:
+	background: $error_bg_color
+	color: $error_bg_color.darken(50)
+	padding: 5px
+	border: 1px solid $error_bg_color.darken(10)
+	border-radius: 5px
+	margin-bottom: 10px
+	font-weight: bold
+
+p.hr:
+	background: $form_bg_color
+	text-align: center
+	margin: 10px 
+	
+form:
+	background: $form_bg_color
+	padding: 20px 20px 55px
+	border: 1px solid $form_bg_color.darken(10)
+	border-radius: 5px
+	width: 500px
+	margin: 0 auto
+
+	label:
+		display: block
+		color: $mid_text_color
+		text-transform: uppercase
+		font-size: $large_text_size
+		font-weight: bold
+		
+	input:
+		margin-bottom: $large_text_size
+		font-size: $large_text_size / 2
+		height: 30px
+		background: $bright_bg_color
+		border: 1px solid $form_bg_color.darken(10)
+		color: $dark_text_color
+		width: 100%
+		
+	input[type='submit']:
+		background: $mid_text_color url('/uploads/graphics/button.png')
+		border: 0
+		width: 150px
+		height: 35px
+		padding: 5px
+		text-align: center
+		font-weight: bold
+		text-transform: uppercase
+		float: right
+		
+div.photo:
+	display: block
+	width: 640px
+	margin: 0 auto
+	padding: 20px
+	background: $bright_bg_color
+	border: 1px solid $bright_bg_color.darken(10)
+	
+	h2:
+		font-family: 'KomikaAxisRegular'
+		font-size: 1.5 * $large_text_size
+	
+	a.edit_button:
+		color: $mid_text_color
+		text-decoration: none
+		font-weight: bold
+		float: right
+		margin-top: -10px
+		
+		&:hover:
+			color: $accent_color
+			
+ul.filters:
+	margin: 0 auto
+	width: 640px
+	height: 100px
+	padding: 10px 20px
+	background: $header_bg_color
+	
+	li:
+		display: block
+		width: 80px
+		height: 80px
+		float: left
+		overflow: hidden
+		background: $accent_color
+		margin: 10px
+		
+ul.photo_list:
+	li:
+		float: left
+		width: 160px
+		height: 160px
+		padding: 5px
+		background: $bright_bg_color
+		border: 1px solid $bright_bg_color.darken(10)
+		margin: 2px
+		display: block
+		
+		.thumb_text:
+			height: 20px
+			position: relative
+			top: -24px
+			background: black
+			color: $light_text_color
+			text-align: center
+			
+			opacity: 0.5
+			border-top: 1px solid $dark_text_color

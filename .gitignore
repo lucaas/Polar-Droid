@@ -1,5 +1,6 @@
 *.pyc
 settings.py
 db.sqlite
-uploads/*
-
+uploads/640/*
+uploads/original/*
+uploads/css/webfonts/*

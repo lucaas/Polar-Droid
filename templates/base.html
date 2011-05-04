@@ -4,8 +4,15 @@
     <meta charset="utf-8" />
     <title>{% block title %}Polar Droid{% endblock %}</title>
     <meta name="description" content="Description of the content of this web page." />
+	
+	<!--[if lt IE 9]>
+	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	
+    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.3.0/build/cssreset/reset-min.css">
     {% load compress %}
 	{% compress css %}
+	    <link rel="stylesheet" href="/uploads/css/fonts.css" type="text/css" charset="utf-8">
 		<link rel="stylesheet" href="/uploads/css/base.ccss" type="text/css" charset="utf-8">
 	{% endcompress %}
 </head>
@@ -14,15 +21,25 @@
 <nav>
 	<h1>POLAR DROID</h1>
 	<ul>
-		<li><a href="#">UNO NO</a></li>
-		<li><a href="#">DOS</a></li>
-		<li><a href="#">TRES TRES</a></li>
-		<li><a href="#">QUATRO</a></li>
+		<li><a href="/browse/">BROWSE</a></li>
+		<li><a href="/upload/">UPLOAD&nbsp;</a></li>
+		<li><a href="/profile/">PROFILE</a></li>
 	</ul>
 </nav>
 </header>
-
+<div id="bar">
+		<a href="/login/">Login</a>
+		<a href="/logout/">Logout</a>
+</div>
 <div id="content">
+	{% if errors %}
+		<ul class="errorlist">
+		{% for error in errors %}
+			<li>{{ error }}</li>
+		{% endfor %}
+		</ul>
+	{% endif %}
+	
 	{% block content %}
 	{% endblock %}
 </div>

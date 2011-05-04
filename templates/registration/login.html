@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load url from future %}
+{% block content %}
+	<h2>LOGIN</h2>
+	
+	<form method="post" action="{% url 'django.contrib.auth.views.login' %}">
+	{% csrf_token %}
+
+	{{ form.as_p }}
+	<input type="submit" value="login" />
+	<input type="hidden" name="next" value="{{ next }}" />
+	</form>
+	
+	{% comment %}
+	<p class="hr">or</p>
+	<a rel="nofollow" href="{% url begin "facebook" %}">Facebook</a>
+	<p class="hr">or</p>
+	{% endcomment %}
+	
+      <form action="/login/openid/" method="post">{% csrf_token %}
+        <div>
+          <label for="openid_identifier">Open ID:</label>
+          <input id="openid_identifier" type="text" value="" name="openid_identifier" />
+          <input type="submit" value="Login" />
+        </div>
+        <p class="helptext">Like your personal <a href="https://www.myopenid.com/" title="My OpenId">myopenid</a></p>
+      </form>
+	
+{% endblock %}

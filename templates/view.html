@@ -1,15 +1,21 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>{{ photo.title }}</h2>
+<div class="photo">
 <img width="640px" height="640px" alt="{{ photo.title }}" src="{{ photo.url }}" />
-<br />
-<ul>
-<li><a href="/photos/filter/{{ photo.id }}/invert/">INV0RT COLURZ</a></li>
-<li><a href="/photos/filter/{{ photo.id }}/auto_contrast/">AUTOMAGIC CONTRASTZ</a></li>
-<li><a href="/photos/filter/{{ photo.id }}/posterize/">LESS COLURZ</a></li>
-<li><a href="/photos/filter/{{ photo.id }}/bluify/">MAKE IT BLU</a></li>
-<li><a href="/photos/filter/{{ photo.id }}/median/">LESS NOIZE</a></li>
-<li><a href="/photos/revert/{{ photo.id }}/">REVERTO O ORIGINALE</a></li>
-</ul>
+<h2>{{ photo.title|upper }}</h2>
+{% if not edit %}
+	<a class="edit_button" href="/edit/{{ photo.id }}/">edit</a>
+{% endif %}
+</div>
+{% if edit %}
+	<ul class="filters">
+	<li><a href="/filter/{{ photo.id }}/invert/">INV0RT COLURZ</a></li>
+	<li><a href="/filter/{{ photo.id }}/auto_contrast/">AUTOMAGIC CONTRASTZ</a></li>
+	<li><a href="/filter/{{ photo.id }}/posterize/">LESS COLURZ</a></li>
+	<li><a href="/filter/{{ photo.id }}/bluify/">MAKE IT BLU</a></li>
+	<li><a href="/filter/{{ photo.id }}/median/">LESS NOIZE</a></li>
+	<li><a href="/revert/{{ photo.id }}/">REVERTO O ORIGINALE</a></li>
+	</ul>
+{% endif %}
 {% endblock %}

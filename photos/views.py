@@ -3,11 +3,15 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.http import HttpResponseRedirect
 
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+
 from models import Photo
 from forms import PhotoForm
 
 import Image, ImageOps, ImageFilter
 
+@login_required
 def upload(request):
 	if request.method == 'POST':
 		form = PhotoForm(request.POST, request.FILES)
@@ -15,16 +19,39 @@ def upload(request):
 			# handle_uploaded_file(request.FILES['image'])
 			form.instance.resize()
 			photo = form.save()
-			return HttpResponseRedirect('/photos/view/%s/' % photo.id)
+			return HttpResponseRedirect('/view/%s/' % photo.id)
 		
 	else:
 		form = PhotoForm()
 	return render_to_response('upload.html', locals(), context_instance=RequestContext(request))
+
+@login_required
+def profile(request):
+	user = request.user
+	fields = [(field.name, field.value_to_string(user)) for field in User._meta.fields]
+	return render_to_response('profile.html', locals())
 	
 	
 def view(request, photo_id):
 	photo = Photo.objects.get(id=photo_id)
 	return render_to_response('view.html', locals(), context_instance=RequestContext(request))
+
+def edit(request, photo_id):
+	photo = Photo.objects.get(id=photo_id)
+	edit = True
+	return render_to_response('view.html', locals(), context_instance=RequestContext(request))
+
+def browse(request):
+	photos = []
+	errors = []
+	try:
+		photos = Photo.objects.all()
+	except Photo.DoesNotExist:
+		errors.append('No photos in database.')
+	if not photos:
+		errors.append('No photos in database.')
+	return render_to_response('browse.html', locals())
+
 
 def apply_filter(request, photo_id, operation='invert'):
 	photo = Photo.objects.get(id=photo_id)
@@ -44,11 +71,11 @@ def apply_filter(request, photo_id, operation='invert'):
 		
 	img.save(photo.path(), 'JPEG')
 	
-	return HttpResponseRedirect('/photos/view/%s/' % photo.id)
+	return HttpResponseRedirect('/view/%s/' % photo.id)
 	
 def revert(request, photo_id):
 	photo = Photo.objects.get(id=photo_id)
 	photo.resize()
 	photo.save()
 	
-	return HttpResponseRedirect('/photos/view/%s/' % photo.id)
+	return HttpResponseRedirect('/view/%s/' % photo.id)

@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	<h2>HI {{ user.full_name }}!</h2>
+	<p>
+		{% for name,value in fields %}
+		{{ name }} : {{ value }} <br />
+		{% endfor %}
+	</p>
+{% endblock %}

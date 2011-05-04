@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	<h2>BROWSE</h2>
+	<ul class="photo_list">
+	{% for photo in photos %}
+		<li>
+			<a href="/view/{{ photo.id }}/">
+			<img class="thumbnail" width="160px" height="160px" alt="{{ photo.title }}" src="{{ photo.url }}" />
+			</a>
+			<p class="thumb_text">{{ photo.title|slice:"25" }}{% if photo.title|length > 25 %}...{% endif %}</p>
+		</li>
+	{% endfor %}
+	</ul>
+{% endblock %}

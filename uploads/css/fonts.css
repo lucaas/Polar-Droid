@@ -1,0 +1,22 @@
+@font-face {
+    font-family: 'EdoRegular';
+    src: url('/uploads/css/webfonts/edo-webfont.eot');
+    src: url('/uploads/css/webfonts/edo-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/uploads/css/webfonts/edo-webfont.woff') format('woff'),
+         url('/uploads/css/webfonts/edo-webfont.ttf') format('truetype'),
+         url('/uploads/css/webfonts/edo-webfont.svg#EdoRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+@font-face {
+    font-family: 'KomikaAxisRegular';
+    src: url('/uploads/css/webfonts/KOMIKAX_-webfont.eot');
+    src: url('/uploads/css/webfonts/KOMIKAX_-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/uploads/css/webfonts/KOMIKAX_-webfont.woff') format('woff'),
+         url('/uploads/css/webfonts/KOMIKAX_-webfont.ttf') format('truetype'),
+         url('/uploads/css/webfonts/KOMIKAX_-webfont.svg#KomikaAxisRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
