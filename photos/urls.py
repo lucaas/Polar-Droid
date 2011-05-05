@@ -5,7 +5,9 @@ from django.conf.urls.defaults import *
 
 urlpatterns = patterns('polardroid.photos.views',
     # Example:
+	(r'^$', 'index'),
 	(r'^profile/$', 'profile'),	
+	(r'^profile/(?P<user_id>\d+)/$', 'profile'),	
 	
 	(r'^browse/$', 'browse'),	
     (r'^upload/$', 'upload'),

@@ -1,7 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
-	<h2>HI {{ user.full_name }}!</h2>
+	<h2>HI {% if user.first_name %}
+				{{ user.first_name }}
+			{% else %}
+				{{ user.username }}
+			{% endif %}
+	!</h2>
+	{% include "photolist.html" %}
 	<p>
 		{% for name,value in fields %}
 		{{ name }} : {{ value }} <br />

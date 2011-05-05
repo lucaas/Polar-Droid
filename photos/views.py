@@ -10,6 +10,7 @@ from models import Photo
 from forms import PhotoForm
 
 import Image, ImageOps, ImageFilter
+import filters
 
 @login_required
 def upload(request):
@@ -18,17 +19,43 @@ def upload(request):
 		if form.is_valid():
 			# handle_uploaded_file(request.FILES['image'])
 			form.instance.resize()
-			photo = form.save()
+			photo = form.save(commit=False)
+			photo.user = request.user
+			photo.save()
 			return HttpResponseRedirect('/view/%s/' % photo.id)
 		
 	else:
 		form = PhotoForm()
 	return render_to_response('upload.html', locals(), context_instance=RequestContext(request))
+	
+def index(request):
+	return render_to_response('index.html', locals())
 
 @login_required
-def profile(request):
-	user = request.user
-	fields = [(field.name, field.value_to_string(user)) for field in User._meta.fields]
+def profile(request, user_id=""):
+
+	user = None
+	errors = []
+	photos = []	
+	
+	if not user_id:
+		user = request.user
+	else:
+		try:
+			user = User.objects.get(id=user_id)
+		except User.DoesNotExist:
+			errors.append("User does not exist")
+	
+	if user:
+		try:
+			photos = Photo.objects.filter(user=user)
+		except Photo.DoesNotExist:
+			pass
+		if not photos:
+			str = "%s has not uploaded any photos yet." % user.username
+			errors.append(str)	
+		fields = [(field.name, field.value_to_string(user)) for field in User._meta.fields]
+
 	return render_to_response('profile.html', locals())
 	
 	
@@ -58,10 +85,27 @@ def apply_filter(request, photo_id, operation='invert'):
 	
 	img = Image.open(photo.path())
 	
+	if operation == 'lomo': 
+		img = filters.lomo(img)
+	if operation == 'agfa': 
+		img = filters.agfa(img)
+	if operation == 'bw': 
+		img = filters.bw(img)
+		
+	if operation == 'bw2': 
+		img = filters.bw2(img)
+		
+	if operation == 'vignette': 
+		img = filters.apply_vignette(img)
+	if operation == 'contrast': 
+		img = filters.contrast(img)
+	if operation == 'color': 
+		img = filters.color(img)
+		
 	if operation == 'invert': 
 		img = ImageOps.invert(img)
 	elif operation == 'auto_contrast':
-		img = ImageOps.autocontrast(img, 0.5)
+		img = ImageOps.autocontrast(img)
 	elif operation == 'posterize':
 		img = ImageOps.posterize(img, 2)
 	elif operation == 'median':
@@ -69,7 +113,7 @@ def apply_filter(request, photo_id, operation='invert'):
 	elif operation == 'bluify':
 		img = ImageOps.colorize(ImageOps.grayscale(img), (0,0,0), (64,128,255))
 		
-	img.save(photo.path(), 'JPEG')
+	img.save(photo.path(), 'PNG')
 	
 	return HttpResponseRedirect('/view/%s/' % photo.id)
 	

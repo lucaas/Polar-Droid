@@ -1,13 +1,13 @@
 from django.conf.urls.defaults import patterns, include, url
-from django.conf import settings
+from polardroid import settings
 from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 from django.contrib.auth.views import login, logout
 
 # Uncomment the next two lines to enable the admin:
-# from django.contrib import admin
-# admin.autodiscover()
+from django.contrib import admin
+admin.autodiscover()
 
 urlpatterns = patterns('',
     # Examples:
@@ -18,14 +18,20 @@ urlpatterns = patterns('',
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
     # Uncomment the next line to enable the admin:
-    # url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/', include(admin.site.urls)),
+	
     url(r'^login/$', login),
 	url(r'^logout/$', logout),
 	url(r'', include('polardroid.photos.urls')),
+	
 	url(r'', include('social_auth.urls')),
 	
 
 ) 
+
+import os
+def fromRelativePath(*relativeComponents):
+    return os.path.join(os.path.dirname(__file__), *relativeComponents).replace("\\","/")
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

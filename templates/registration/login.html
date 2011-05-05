@@ -11,11 +11,13 @@
 	<input type="hidden" name="next" value="{{ next }}" />
 	</form>
 	
-	{% comment %}
+
 	<p class="hr">or</p>
-	<a rel="nofollow" href="{% url begin "facebook" %}">Facebook</a>
-	<p class="hr">or</p>
-	{% endcomment %}
+	<a rel="nofollow" href="/login/facebook/">Facebook</a>
+	<a rel="nofollow" href="/login/twitter/">Twitter</a>
+	<a rel="nofollow" href="/login/google/">Google</a>
+	<a rel="nofollow" href="#openid">Open ID</a>
+	
 	
       <form action="/login/openid/" method="post">{% csrf_token %}
         <div>

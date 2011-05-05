@@ -34,7 +34,11 @@ header:
 	background: $header_bg_color url('/uploads/graphics/header.png')
 	
 	h1:
-		display: none
+		float: left
+		margin-left: 25px
+		width: 350px
+		height: 100px
+		opacity: 0
 	
 	ul:
 		float: right
@@ -176,6 +180,8 @@ ul.filters:
 		margin: 10px
 		
 ul.photo_list:
+	width: 880px
+	float: left
 	li:
 		float: left
 		width: 160px
