@@ -3,4 +3,5 @@ settings.py
 db.sqlite
 uploads/640/*
 uploads/original/*
+uploads/filtered/*
 uploads/css/webfonts/*

@@ -1,4 +1,4 @@
-from PIL import Image, ImageChops, ImageEnhance, ImageOps
+from PIL import Image, ImageChops, ImageEnhance, ImageOps, ImageMath, ImageFilter
 
 from polardroid import settings
 
@@ -28,6 +28,7 @@ def contrast(img, amount=1.3):
 def color(img, amount=1.3):
 	enhancer = ImageEnhance.Color(img)
 	return enhancer.enhance(amount)
+	
 	
 def brightness(img, amount=1.3):
 	enhancer = ImageEnhance.Brightness(img)
@@ -64,3 +65,61 @@ def agfa(img):
 	img = Image.merge("RGB", (r,g,b))
 	img = color(img, 0.7)
 	return img
+
+def overlay_helper(a,b):
+	mask = b.point(lambda i: i < 128 and 255)
+	dark = ImageMath.eval("2 * B * L / 255", L=a, B=b).convert('L')
+	light = ImageMath.eval("255 - 2 * (255 - B) * (255 - L) / 255", L=a, B=b).convert('L')
+	return Image.composite(dark, light, mask)
+	
+def overlay_blend(a, b, amount=1.0):
+	a.load()
+	b.load()
+	ra,ga,ba = a.split()
+	rb,gb,bb = b.split()
+	
+	rc = overlay_helper(ra,rb)
+	gc = overlay_helper(ga,gb)
+	bc = overlay_helper(ba,bb)
+	
+	result = Image.merge("RGB", (rc, gc, bc))
+	if (amount != 1.0):
+		result = Image.blend(a, result, amount)
+		
+	return result
+	
+def army(img):
+
+	# Darken shadows
+	layer1 = color(img, 0.8)
+	result = ImageChops.multiply(img, layer1)
+
+	# Lighten Highlights
+	layer2 = color(img, 0.8)
+	result = Image.blend(result, ImageChops.add(result, layer2), 0.5)
+	
+	# Overlay blend
+	result = overlay_blend(img, result)
+
+	# Tint Orange
+	r = ImageChops.constant(img, 255)
+	g = ImageChops.constant(img, 150)
+	b = ImageChops.constant(img, 80)
+	orange = Image.merge("RGB",(r,g,b))
+	result = Image.blend(overlay_blend(orange, result), result, 0.6)
+
+	return result
+	
+def cyan_glow(img):
+	glow = img.filter(ImageFilter.BLUR).filter(ImageFilter.BLUR)
+	glow = brightness(glow, 1.25)
+	result = Image.blend(overlay_blend(glow, img), img, 0.3)
+	
+	# Tint Cyan
+	r = ImageChops.constant(img, 64)
+	g = ImageChops.constant(img, 255)
+	b = ImageChops.constant(img, 255)
+	orange = Image.merge("RGB",(r,g,b))
+	result = Image.blend(overlay_blend(orange, result), result, 0.8)
+	result = apply_vignette(result, 0.5)
+	return result

@@ -11,17 +11,13 @@
 </div>
 {% if edit %}
 	<ul class="filters">
-	<li><a href="/filter/{{ photo.id }}/lomo/">Lomo</a></li>
-	<li><a href="/filter/{{ photo.id }}/agfa/">Agfa</a></li>
+	<li><a href="/revert/{{ photo.id }}/">Original</a></li>
+	<li><a href="/filter/{{ photo.id }}/lomo/">Metallic Lomo</a></li>
+	<li><a href="/filter/{{ photo.id }}/agfa/">Pink Seventies</a></li>
+	<li><a href="/filter/{{ photo.id }}/army/">Orange Army</a></li>
+	<li><a href="/filter/{{ photo.id }}/cyan_glow/">Dreamy Cyan</a></li>
 	<li><a href="/filter/{{ photo.id }}/bw/">Black &amp; White</a></li>
-	<li><a href="/filter/{{ photo.id }}/bw2/">Black &amp; White 2</a></li>
-	<li><a href="/filter/{{ photo.id }}/vignette/">Vignette</a></li>
-	<li><a href="/filter/{{ photo.id }}/color/">Color</a></li>
-	<li><a href="/filter/{{ photo.id }}/contrast/">Contrast</a></li>
-	<li><a href="/filter/{{ photo.id }}/posterize/">LESS COLURZ</a></li>
-	<li><a href="/filter/{{ photo.id }}/bluify/">MAKE IT BLU</a></li>
-	<li><a href="/filter/{{ photo.id }}/median/">LESS NOIZE</a></li>
-	<li><a href="/revert/{{ photo.id }}/">REVERTO O ORIGINALE</a></li>
+	<li><a href="/filter/{{ photo.id }}/bw2/">Gray, dark and dull</a></li>
 	</ul>
 {% endif %}
 {% endblock %}

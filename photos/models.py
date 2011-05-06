@@ -11,16 +11,23 @@ class Photo(models.Model):
 	image = models.ImageField(upload_to="original")
 	md5 = models.CharField(max_length=50, blank=True, null=True)
 	user = models.ForeignKey(User)
+	filtered = models.BooleanField(default=False)
 	
 	def __unicode__(self):
 		return self.title
 	
 	
-	def path(self):
+	def original_path(self):
 		return settings.MEDIA_ROOT + '640/' + self.md5 + '.png'
 	
+	def path(self):
+		return settings.MEDIA_ROOT + 'filtered/' + self.md5 + '.jpg'
+		
 	def url(self):
-		return settings.MEDIA_URL + '640/' + self.md5 + '.png'
+		if self.filtered:
+			return settings.MEDIA_URL + 'filtered/' + self.md5 + '.jpg'
+		else:
+			return settings.MEDIA_URL + '640/' + self.md5 + '.png'
 			
 	def resize(self):
 		size = 640,640
@@ -30,9 +37,9 @@ class Photo(models.Model):
 			self.md5 = md5sum		
 			
 			img = ImageOps.fit(img, size, Image.ANTIALIAS, 0, (0.5,0.5))
-			img.save(self.path(), "PNG")
+			img.save(self.original_path(), "PNG")
 		except IOError:
-			print "Cannot create thumbnail for", original
+			print "Cannot create resized image for ", self.image
 
 admin.site.register(Photo)	
 

@@ -83,7 +83,7 @@ def browse(request):
 def apply_filter(request, photo_id, operation='invert'):
 	photo = Photo.objects.get(id=photo_id)
 	
-	img = Image.open(photo.path())
+	img = Image.open(photo.original_path())
 	
 	if operation == 'lomo': 
 		img = filters.lomo(img)
@@ -91,35 +91,23 @@ def apply_filter(request, photo_id, operation='invert'):
 		img = filters.agfa(img)
 	if operation == 'bw': 
 		img = filters.bw(img)
-		
 	if operation == 'bw2': 
 		img = filters.bw2(img)
+	if operation == 'army': 
+		img = filters.army(img)
+	if operation == 'cyan_glow': 
+		img = filters.cyan_glow(img)	
 		
-	if operation == 'vignette': 
-		img = filters.apply_vignette(img)
-	if operation == 'contrast': 
-		img = filters.contrast(img)
-	if operation == 'color': 
-		img = filters.color(img)
-		
-	if operation == 'invert': 
-		img = ImageOps.invert(img)
-	elif operation == 'auto_contrast':
-		img = ImageOps.autocontrast(img)
-	elif operation == 'posterize':
-		img = ImageOps.posterize(img, 2)
-	elif operation == 'median':
-		img = img.filter(ImageFilter.MedianFilter())
-	elif operation == 'bluify':
-		img = ImageOps.colorize(ImageOps.grayscale(img), (0,0,0), (64,128,255))
-		
-	img.save(photo.path(), 'PNG')
+	img.save(photo.path(), 'JPEG')
+	photo.filtered=True
+	photo.save()
 	
 	return HttpResponseRedirect('/view/%s/' % photo.id)
 	
 def revert(request, photo_id):
 	photo = Photo.objects.get(id=photo_id)
 	photo.resize()
+	photo.filtered = False
 	photo.save()
 	
 	return HttpResponseRedirect('/view/%s/' % photo.id)

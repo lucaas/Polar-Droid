@@ -169,6 +169,7 @@ ul.filters:
 	height: 100px
 	padding: 10px 20px
 	background: $header_bg_color
+	overflow: auto
 	
 	li:
 		display: block
