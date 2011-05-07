@@ -7,6 +7,17 @@ filter_path = '/home/lucas/django/polardroid/uploads/filters/'
 R,G,B = (0,1,2)
 
 
+def add_image(img, file, amount=1.0):
+	path = "%s%s" % (filter_path, file)
+	filterImg = Image.open(path)
+	
+	result = ImageChops.add(filterImg, img)
+	
+	if (amount != 1.0):
+		result = Image.blend(img, result, amount)
+	
+	return result
+	
 def multiply_image(img, file, amount=1.0):
 	path = "%s%s" % (filter_path, file)
 	filterImg = Image.open(path)
@@ -15,8 +26,6 @@ def multiply_image(img, file, amount=1.0):
 		filterImg = ImageChops.add(filterImg, ImageChops.constant(filterImg, (1-amount)*255).convert("RGB"))
 	
 	return ImageChops.multiply(filterImg, img)
-	
-
 	
 def apply_vignette(img, amount=1.0):
 	return multiply_image(img, "vignette.png", amount)
@@ -119,7 +128,24 @@ def cyan_glow(img):
 	r = ImageChops.constant(img, 64)
 	g = ImageChops.constant(img, 255)
 	b = ImageChops.constant(img, 255)
-	orange = Image.merge("RGB",(r,g,b))
-	result = Image.blend(overlay_blend(orange, result), result, 0.8)
+	cyan = Image.merge("RGB",(r,g,b))
+	result = Image.blend(overlay_blend(cyan, result), result, 0.8)
 	result = apply_vignette(result, 0.5)
+	return result
+	
+def oldie(img):
+	# desaturate
+	img = color(img, 0.1)
+	
+	# Tint Brown
+	r = ImageChops.constant(img, 230)
+	g = ImageChops.constant(img, 200)
+	b = ImageChops.constant(img, 170)
+	tint = Image.merge("RGB",(r,g,b))
+	result = ImageChops.multiply(img, tint)
+	
+	# add noise and texture
+	result = add_image(result, "add_noise_gradient_2.png")
+	result = multiply_image(result, "stains_and_torn_bottom.png")
+
 	return result

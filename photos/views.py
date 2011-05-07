@@ -18,10 +18,9 @@ def upload(request):
 		form = PhotoForm(request.POST, request.FILES)
 		if form.is_valid():
 			# handle_uploaded_file(request.FILES['image'])
-			form.instance.resize()
 			photo = form.save(commit=False)
-			photo.user = request.user
-			photo.save()
+			photo.create(request.user)
+
 			return HttpResponseRedirect('/view/%s/' % photo.id)
 		
 	else:
@@ -97,12 +96,15 @@ def apply_filter(request, photo_id, operation='invert'):
 		img = filters.army(img)
 	if operation == 'cyan_glow': 
 		img = filters.cyan_glow(img)	
-		
+	if operation == 'oldie': 
+		img = filters.oldie(img)
 	img.save(photo.path(), 'JPEG')
-	photo.filtered=True
+	
+	photo.filtered = True
+	photo.filter_used = operation
 	photo.save()
 	
-	return HttpResponseRedirect('/view/%s/' % photo.id)
+	return HttpResponseRedirect('/edit/%s/' % photo.id)
 	
 def revert(request, photo_id):
 	photo = Photo.objects.get(id=photo_id)

@@ -179,10 +179,23 @@ ul.filters:
 		overflow: hidden
 		background: $accent_color
 		margin: 10px
+
 		
+div#map_canvas:
+	margin: 0 auto
+	width: 640px
+	height: 200px
+	margin: 20px auto
+	background: $header_bg_color
+
+dt:
+	font-weight: bold
+	width: 100px
+	float: left
+	clear: left
+	
 ul.photo_list:
 	width: 880px
-	float: left
 	li:
 		float: left
 		width: 160px
@@ -201,5 +214,10 @@ ul.photo_list:
 			color: $light_text_color
 			text-align: center
 			
-			opacity: 0.5
+			opacity: 0.75
 			border-top: 1px solid $dark_text_color
+			
+.break:
+	width: 100%
+	clear: both
+	display: inline-block
