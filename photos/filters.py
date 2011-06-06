@@ -1,11 +1,11 @@
-from PIL import Image, ImageChops, ImageEnhance, ImageOps, ImageMath, ImageFilter
+from PIL import Image, ImageChops, ImageEnhance, ImageOps, ImageMath, ImageFilter, ImageDraw
 
 from polardroid import settings
 
 #filter_path = "%s%s" % settings.MEDIA_ROOT, "filters/"
 filter_path = '/home/lucas/django/polardroid/uploads/filters/'
 R,G,B = (0,1,2)
-
+size = (640,640)
 
 def add_image(img, file, amount=1.0):
 	path = "%s%s" % (filter_path, file)
@@ -149,3 +149,41 @@ def oldie(img):
 	result = multiply_image(result, "stains_and_torn_bottom.png")
 
 	return result
+
+def halftone(img):
+	smallsize = 80
+	factor = int(size[0] / smallsize)
+	small = img.resize((smallsize, smallsize), Image.ANTIALIAS)
+	smallval = small.load()
+	
+	result_r = Image.new("L", size, 255)
+	result_g = Image.new("L", size, 255)
+	result_b = Image.new("L", size, 255)
+	draw_r = ImageDraw.Draw(result_r)
+	draw_g = ImageDraw.Draw(result_g)
+	draw_b = ImageDraw.Draw(result_b)
+	
+	for i in range(smallsize):
+		for j in range(smallsize + 2):
+			try:
+				values = smallval[i,j]
+			except IndexError:
+				values = smallval[i,j-(j-smallsize + 1)]
+				
+			size_r = 1.25*int(factor*(255-values[0])/255)
+			size_g = 1.25*int(factor*(255-values[1])/255)
+			size_b = 1.25*int(factor*(255-values[2])/255)
+
+			xy_r = (i*factor, j*factor - i%8)
+			xy_g = (i*factor, j*factor - i%7)
+			xy_b = (i*factor, j*factor - i%3)
+			
+			draw_r.ellipse((xy_r[0], xy_r[1], xy_r[0]+size_r, xy_r[1]+size_r), fill=0)
+			draw_g.ellipse((xy_g[0], xy_g[1], xy_g[0]+size_g, xy_g[1]+size_g), fill=0)
+			draw_b.ellipse((xy_b[0], xy_b[1], xy_b[0]+size_b, xy_b[1]+size_b), fill=0)			
+		
+			
+	result = Image.merge("RGB", (result_r, result_g, result_b))
+	return overlay_blend(img, result, 0.5)
+			
+		

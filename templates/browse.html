@@ -1,6 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
-	<h2>BROWSE</h2>
+	
+	{% if filter == "latest" %}<div class="toggle_button">{% else %}<div class="toggle_button toggle_button_inverted">{% endif %}
+		<a href="/browse/popular/" />popular</a><a href="/browse/latest/">latest</a>
+	</div>
+	
+	<h2>{{ title }}</h2>
+
 	{% include "photolist.html" %}
+
 {% endblock %}

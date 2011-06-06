@@ -1,14 +1,34 @@
 {% if photos %}
+<div id="pagination_photos">
 	<ul class="photo_list">
-	{% for photo in photos %}
+	{% for photo in photos.object_list %}
 		<li>
+
 			<a href="/view/{{ photo.id }}/">
-			<img class="thumbnail" width="160px" height="160px" alt="{{ photo.title }}" src="{{ photo.url }}" />
-			</a>
-			<p class="thumb_text">{{ photo.title|slice:"25" }}{% if photo.title|length > 25 %}...{% endif %}</p>
+			<img class="thumbnail" width="320px" height="320px" alt="{{ photo.title }}" src="{{ photo.thumb_url }}" />
+		<hgroup class="photo_caption">
+			<h3><a href="/view/{{ photo.id }}/">{{ photo.title }}</a></h3>
+			<h5><a href="/profile/{{ photo.user.id }}/">{{ photo.user }}</a></h5>
+		</hgroup>
+
 		</li>
 	{% endfor %}
-		<span class="break">&nbsp;</span>
+	
+	<span class="break">&nbsp;</span>
 	</ul>
+		<p class="pagination">
+	 {% if photos.has_previous %}
+            <a href="{{base_url}}{{ photos.previous_page_number }}/">previous</a>
+        {% endif %}
 
+        <span class="current">
+            Page {{ photos.number }} of {{ photos.paginator.num_pages }}.
+        </span>
+
+        {% if photos.has_next %}
+            <a href="{{base_url}}{{ photos.next_page_number }}/">next</a>
+       {% endif %}
+	</p>
+	
+</div>
 {% endif %}

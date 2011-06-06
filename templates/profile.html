@@ -1,16 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-	<h2>HI {% if user.first_name %}
-				{{ user.first_name }}
+	<h2>{% if user.first_name %}
+				{{ user.first_name|upper }}'S
 			{% else %}
-				{{ user.username }}
-			{% endif %}
-	!</h2>
+				{{ user.username|upper }}'S
+			{% endif %}LATEST PHOTOS
+	</h2>
 	{% include "photolist.html" %}
-	<p>
-		{% for name,value in fields %}
-		{{ name }} : {{ value }} <br />
-		{% endfor %}
-	</p>
 {% endblock %}

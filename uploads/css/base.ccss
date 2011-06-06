@@ -13,42 +13,74 @@ bright_bg_color = #e4e9ee
 error_bg_color = #E88772
 
 large_text_size = 25px
-page_width = 920px
+page_width = 960px
 
 
 article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section:
     display: block
 
 html:
-	background: $background_color url('/uploads/graphics/background.png')
+	background: $content_bg_color
 	font-family: 'Helvetica', 'Arial', sans-serif
-body:
-	width: $page_width + 2 * 10px
-	margin: 0 auto
-	background: url('/uploads/graphics/body-bg.png')
+	overflow-y: scroll
 
+body:
+	width: $page_width
+	margin: 0 auto
+
+p:
+	margin-bottom: $large_text_size
+
+img:
+	margin: 0
+	padding: 0
+	
 header:
 	margin: 0 auto
 	width: $page_width
-	height: 100px
-	background: $header_bg_color url('/uploads/graphics/header.png')
+	height: 50px
+	margin-bottom: 20px
+
+	
+	a:
+		text-decoration: none
 	
 	h1:
 		float: left
-		margin-left: 25px
-		width: 350px
-		height: 100px
-		opacity: 0
-	
+		width: 320px - 20px - 1px
+		height: 50px - 20px
+		padding: 10px
+		background: $dark_text_color
+		color: $light_text_color
+		font-weight: bold
+		font-size:  $large_text_size
+		text-shadow: 0px 0px 5px rgba(0,0,0,0.3)
+		box-shadow:inset -5px 0px 5px rgba(0,0,0,0.1)
+		border-right: 1px solid $bright_bg_color.darken(5)
+		-webkit-border-bottom-left-radius: 5px
+		-moz-border-radius-bottomleft: 5px
+		border-bottom-left-radius: 5px
+		
+		span.droid:
+			color: $accent_color	
+			
+		&:hover:
+			background: $dark_text_color.brighten(10)
+
+
 	ul:
-		float: right
-		width: 150px
+		float: left
+		width: 320px + 160px - 20px
+		height: 50px - 20px
 		padding: 10px
 		list-style-type: none
+		background: $bright_bg_color
 		
-		li:		
+		li:	
+			display: inline
 			text-align: right
-			margin-right: 20px	
+			margin-left: 20px
+			
 			a:
 				color: $mid_text_color
 				text-decoration: none
@@ -60,60 +92,90 @@ header:
 				&:hover:
 					color: $accent_color
 					
-#bar:
-	margin: 0 auto
-	width: $page_width
-	height: $large_text_size
-	background: $bright_bg_color
-	border-bottom: $bright_bg_color.darken(10) 1px solid
-	
-	a:
-		float: right
-		padding: 0 10px
-		color: $mid_text_color
-		text-decoration: none
-		font-weight: bold
-		font-size: $large_text_size / 2
-		line-height: $large_text_size
+	#bar:
+		float: left
+		width: 160px - 20px
+		height: 50px - 20px
+		padding: 10px
+		background: $bright_bg_color.darken(1)
+		-webkit-border-bottom-right-radius: 5px
+		-moz-border-radius-bottomright: 5px
+		border-bottom-right-radius: 5px
+		position: relative
+		
+		.dummy_center:
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 160px
+			height: 50px
+			padding: 10px
+			display: table;
+		p:
+			display: table-cell
+			vertical-align: middle
+			text-align: center
+			text-transform: uppercase
+			font-size: $large_text_size / 2
+			color: $mid_text_color
+			padding: 0
 			
-		&:hover:
-			color: $accent_color
+			a:
+				color: $mid_text_color
+				text-decoration: none
+
+					
+				&:hover:
+					color: $accent_color
 			
 #content:
 	margin: 0 auto
-	width: $page_width - 2*20px
-	min-height: 400px
-	padding: 20px
+	width: $page_width
 	background: $content_bg_color
+	padding-bottom: 60px
+	
+	&:after:
+		content: `"."`
+		display: block
+		height: 0
+		clear: both
+		visibility: hidden
 	
 h2:
 	color: $dark_text_color
 	text-align: center
 	font-weight: bold
 	font-size: $large_text_size
+	margin: 20px
 
 .errorlist:
 	background: $error_bg_color
 	color: $error_bg_color.darken(50)
-	padding: 5px
+	width: 640 - 20px
+	padding: 10px
 	border: 1px solid $error_bg_color.darken(10)
 	border-radius: 5px
-	margin-bottom: 10px
+	margin: 10px auto
 	font-weight: bold
 
 p.hr:
 	background: $form_bg_color
 	text-align: center
 	margin: 10px 
+
+
+.inset, form:
+	background: $form_bg_color
+	border: 1px solid $form_bg_color.darken(10)
+	border-radius: 10px
+	box-shadow:inset 0px 0px 20px $form_bg_color.darken(10);
+	padding: 20px
+	width: 640px
+	margin: 10px auto
 	
 form:
-	background: $form_bg_color
-	padding: 20px 20px 55px
-	border: 1px solid $form_bg_color.darken(10)
-	border-radius: 5px
-	width: 500px
-	margin: 0 auto
-
+	padding-bottom: 55px
+	
 	label:
 		display: block
 		color: $mid_text_color
@@ -122,71 +184,232 @@ form:
 		font-weight: bold
 		
 	input:
-		margin-bottom: $large_text_size
 		font-size: $large_text_size / 2
 		height: 30px
 		background: $bright_bg_color
 		border: 1px solid $form_bg_color.darken(10)
 		color: $dark_text_color
 		width: 100%
+		padding: 0px 5px
 		
-	input[type='submit']:
-		background: $mid_text_color url('/uploads/graphics/button.png')
-		border: 0
-		width: 150px
-		height: 35px
-		padding: 5px
-		text-align: center
-		font-weight: bold
-		text-transform: uppercase
-		float: right
+input[type='submit'], a.button:
+	background: $mid_text_color url('/uploads/graphics/form-button.png')
+	border: 0
+	width: 150px
+	height: 32px
+	padding: 5px
+	text-align: center
+	font-weight: bold
+	text-transform: uppercase
+	float: right
+	
+	&:hover:
+		color: $accent_color
 		
+	&:active:
+		background: $mid_text_color url('/uploads/graphics/form-button.png') `0px` -32px 
+
+a.button:		
+	font-size: $large_text_size / 2
+	color: $dark_text_color
+	text-decoration: none
+	width: 150px - 10px
+	height: 32px - 10px
+	margin-right: 10px
+	margin-left: -160px
+	padding: 8px 5px 2px
+	
+	
+div.toggle_button:
+	float: right
+	background: $mid_text_color url('/uploads/graphics/toggle-button.png') 
+	width: 240px
+	height: 32px
+	margin-right: 10px
+	margin-left: -250px
+
+div.toggle_button_inverted:	
+	background: $mid_text_color url('/uploads/graphics/toggle-button.png') `0px` -32px 
+	
+div.toggle_button a:
+	display: inline-block
+	font-size: $large_text_size / 2
+	text-transform: uppercase
+	color: $dark_text_color
+	text-decoration: none
+	width: 120px - 10px
+	height: 32px
+	text-align: center
+	font-weight: bold
+	padding: 8px 5px 2px
+	
+	&:hover:
+		color: $accent_color
+	
+p.pagination:
+	text-align: center
+	color: $dark_text_color
+	
 div.photo:
+	z-index: 5
 	display: block
 	width: 640px
-	margin: 0 auto
+	height: 720px
+	position: relative
+	float: left
+	left: $page_width / 2 - 20px - 640px / 2
 	padding: 20px
 	background: $bright_bg_color
 	border: 1px solid $bright_bg_color.darken(10)
+	box-shadow: 0px 0px 20px $content_bg_color.darken(5)
 	
 	h2:
 		font-family: 'KomikaAxisRegular'
-		font-size: 1.5 * $large_text_size
-	
-	a.edit_button:
+		font-size: 32px;
+		padding: 0
+		margin: 0
+		text-shadow: 0px 0px 1px $dark_text_color.brighten(10)
+	h4:
 		color: $mid_text_color
-		text-decoration: none
-		font-weight: bold
-		float: right
-		margin-top: -10px
+		width: 320px
+		float: left
+		margin-top: 16px
 		
+		a:
+			color: $mid_text_color
+			
+			&:hover:
+				color: $accent_color
+			
+	a.edit_button, a.details_button, a.share_button, a.delete_button:
+		display: block
+		float: right
+		width: 32px
+		height: 32px
+		background: $form_bg_color
+		overflow: hidden
+		text-indent: -200px
+		margin-left: 16px
+		
+	a.edit_button:
+		background: url('/uploads/graphics/photo-icons.png')
 		&:hover:
-			color: $accent_color
+			background: url('/uploads/graphics/photo-icons.png') -32px 0px no-repeat
+			
+	a.details_button:
+		background: url('/uploads/graphics/photo-icons.png') `0px` -32px no-repeat
+		&:hover:
+			background: url('/uploads/graphics/photo-icons.png') -32px -32px no-repeat
+			
+	a.share_button:
+		background: url('/uploads/graphics/photo-icons.png') `0px` -64px no-repeat
+		&:hover:
+			background: url('/uploads/graphics/photo-icons.png') -32px -64px no-repeat
+			
+	a.delete_button:
+		background: url('/uploads/graphics/photo-icons.png') `0px` -96px no-repeat
+		&:hover:
+			background: url('/uploads/graphics/photo-icons.png') -32px -96px no-repeat
+		&:active:
+			background: url('/uploads/graphics/photo-icons.png') -96px -96px no-repeat
+			
+	a.edit_button_active:
+		background: url('/uploads/graphics/photo-icons.png') -64px `0px` no-repeat 
+		&:hover:
+			background: url('/uploads/graphics/photo-icons.png') -96px 0px no-repeat
+			
+	a.details_button_active:
+		background: url('/uploads/graphics/photo-icons.png') -64px -32px no-repeat
+		&:hover:
+			background: url('/uploads/graphics/photo-icons.png') -96px -32px no-repeat
+			
+	a.share_button_active:
+		background: url('/uploads/graphics/photo-icons.png') `-64px` -64px no-repeat
+		&:hover:
+			background: url('/uploads/graphics/photo-icons.png') -96px -64px no-repeat
+			
+	div#details_content:
+		width: 640px
+		height: 640px
+			
+#spinner:
+	margin: 320px-16px auto -320px-16px 
+	display: block
+	width: 32px
+	height: 32px
+	z-index: 12
+	
+#main_photo_frame:
+	z-index: 13
+	
+div#photo_footer:
+	position: relative
+	bottom: 0
+	height: 100px
+	
+#photo_canvas:
+	width: 640px
+	height: 640px
+	
+	
+#like_holder:
+	position: relative
+	z-index: 1
+	overflow: hidden
+	clear: both
+	background: $bright_bg_color.darken(5)
+	border: 1px solid $bright_bg_color.darken(10)
+	margin-left: -20px
+	padding: 20px 18px 20px 230px 
+	width: 430px
+	box-shadow:inset 0px 5px 5px rgba(0,0,0,0.03)
 			
 ul.filters:
-	margin: 0 auto
-	width: 640px
-	height: 100px
-	padding: 10px 20px
-	background: $header_bg_color
-	overflow: auto
+	z-index: 2
+	float: left
+	margin-left: -160px
+	width: 160px + 10px
+	height: 741px
+	padding: 10px 3px
+	background: $bright_bg_color.darken(5)
+	border: 1px solid $bright_bg_color.darken(10)
+	border-left: 0
+
 	
 	li:
 		display: block
 		width: 80px
 		height: 80px
 		float: left
-		overflow: hidden
 		background: $accent_color
-		margin: 10px
-
+		margin: 5px 2px
 		
+		a:
+			color: $light_text_color
+			text-decoration: none
+			text-transform: uppercase
+			font-size: $large_text_size / 2
+			font-weight: bold
+			
+		span:
+			display: block
+			width: 80px - 10px
+			height: 80px - 10px
+			float: left
+			margin-top: -80px
+			padding: 5px
+
+ul.active_filters:	
+	margin-left: 60px
+	
+div.active_filters:
+	left: $page_width / 2 - 2*20px - 640px / 2 - 60px
+	
 div#map_canvas:
 	margin: 0 auto
 	width: 640px
-	height: 200px
+	height: 480px
 	margin: 20px auto
-	background: $header_bg_color
 
 dt:
 	font-weight: bold
@@ -195,29 +418,99 @@ dt:
 	clear: left
 	
 ul.photo_list:
-	width: 880px
+	border-radius: 5px
+	overflow: hidden
+	list-style-type: none
+	
 	li:
-		float: left
-		width: 160px
-		height: 160px
-		padding: 5px
-		background: $bright_bg_color
-		border: 1px solid $bright_bg_color.darken(10)
-		margin: 2px
+		width: 320px
+		height: 320px
 		display: block
+		float: left
+		margin: 0
+		padding: 0
 		
-		.thumb_text:
-			height: 20px
-			position: relative
-			top: -24px
-			background: black
-			color: $light_text_color
-			text-align: center
-			
-			opacity: 0.75
-			border-top: 1px solid $dark_text_color
 			
 .break:
 	width: 100%
+	height: 0
 	clear: both
 	display: inline-block
+	
+ul.login:
+	margin: 10px auto
+	width: 300px
+	height: 64px
+	li:
+		float: left
+		width: 64px
+		height: 32px
+		text-indent: -500px
+		overflow: hidden
+	li a:
+		display: block
+		float: left
+		width: 32px
+		height: 32px
+		margin-left: 32px
+		
+	li.facebook a:
+		background: $mid_text_color url('/uploads/graphics/icons.png')
+		&:hover:
+			background: url('/uploads/graphics/icons.png') -32px 0px no-repeat
+	li.twitter a:
+		background: url('/uploads/graphics/icons.png') `0px` -32px no-repeat
+		&:hover:
+			background: url('/uploads/graphics/icons.png') -32px -32px no-repeat
+	li.google a:
+		background: url('/uploads/graphics/icons.png') `0px` -2 * 32px no-repeat
+		&:hover:
+			background: url('/uploads/graphics/icons.png') -32px -2*32px no-repeat		
+	li.openid a:
+		background: url('/uploads/graphics/icons.png') `0px` -3 * 32px no-repeat
+		&:hover:
+			background: url('/uploads/graphics/icons.png') -32px -3*32px no-repeat
+			
+			
+#openid_form:
+	display: block
+	
+hgroup.photo_caption:
+	border-bottom-left-radius: 5px
+	position: relative
+	margin-top: -61px
+	padding: 10px
+	height: 38px
+	background: rgba(0,0,0,0.5)
+	overflow: hidden
+	z-index: 3
+		
+	a:
+		color: white
+		text-decoration: none
+		&:hover:
+			color: $accent_color
+	
+	h3:
+		font-weight: bold	
+		
+div#index_box:
+	width: 800px
+	height: 640px
+	margin: 0 auto
+	overflow: hidden
+	border-radius: 5px
+
+				
+	#big_photo_container:
+		border-radius: 10px 0 0 10px
+
+				
+	#small_photos_container:
+		float: right
+	
+	.small_photo:
+		display: block
+		width: 160px
+		height: 160px
+		

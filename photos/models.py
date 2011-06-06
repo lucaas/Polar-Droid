@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Max
 from django.contrib.admin.models import User
 from django.contrib import admin
 from polardroid import settings
@@ -6,8 +7,17 @@ from polardroid import settings
 import Image, ImageOps
 from PIL.ExifTags import TAGS
 
-import datetime, hashlib
+import datetime, hashlib, random
 
+
+def get_random_item(model, max_id=None, count=1):
+	number = 5
+	ids = model.objects.all().values_list('id', flat=True)
+	amount = min(len(ids), number)
+	picked_ids = random.sample(ids, amount)
+	return model.objects.filter(id__in=picked_ids)
+	
+	
 # Create your models here.
 class Photo(models.Model):
 	title = models.CharField(max_length=50)
@@ -17,18 +27,29 @@ class Photo(models.Model):
 	filtered = models.BooleanField(default=False)
 	filter_used = models.CharField(max_length=50, blank=True, default="")
 	exif = models.OneToOneField('Exif', null=True, related_name="photo")
-	upload_date = models.DateField(auto_now_add=True)
-
+	upload_date = models.DateTimeField(auto_now_add=True)
+	views = models.PositiveIntegerField(default=0)
 	
+
 	def __unicode__(self):
 		return self.title
-	
-	
+			
+		
+	def views_add(self):
+		Photo.objects.filter(id=self.id).update(views = models.F('views') + 1)
+		return self.views + 1
+		
 	def original_path(self):
 		return settings.MEDIA_ROOT + '640/' + self.md5 + '.png'
 	
 	def path(self):
 		return settings.MEDIA_ROOT + 'filtered/' + self.md5 + '.jpg'
+	
+	def thumb_path(self):
+		return settings.MEDIA_ROOT + 'thumbs/' + self.md5 + '.jpg'
+	
+	def thumb_url(self):
+		return settings.MEDIA_URL + 'thumbs/' + self.md5 + '.jpg'
 		
 	def url(self):
 		if self.filtered:
@@ -54,9 +75,15 @@ class Photo(models.Model):
 		# resize image
 		orientation = exif.orientation if exif.orientation else None
 		self.resize(img, orientation=orientation)
-		
-
 		self.save()
+		self.generate_thumb()
+			
+	def generate_thumb(self):
+		size = (320,320)
+		img = Image.open(self.path()) if self.filtered else Image.open(self.original_path())
+		img.thumbnail(size, Image.ANTIALIAS)
+		img.save(self.thumb_path(), "JPEG")
+	
 		
 	def resize(self, img=None, orientation=None):
 		size = 640,640
@@ -92,20 +119,6 @@ class Photo(models.Model):
 				
 admin.site.register(Photo)	
 
-# -- DJANGO SOCIAL AUTH REGISTRATION
-from social_auth.signals import socialauth_registered
-
-def new_users_handler(sender, user, response, details, **kwargs):
-	print sender
-	print user
-	print response
-	print details
-	for key, value in kwargs:
-		print "%s:%s" % key, value
-	
-	return False
-
-socialauth_registered.connect(new_users_handler, sender=None)
 
 
 class Exif(models.Model):
@@ -133,13 +146,13 @@ class Exif(models.Model):
 			
 			if not ret:
 				return False
-		
+			"""
 			print "---------"
 			print "EXIF INFO: "
 			print ""
 			print ret
 			print ""
-		
+			"""
 			if 'GPSInfo' in ret and ret['GPSInfo']:
 				NS = 1 if (ret['GPSInfo'][1] == 'N') else -1
 				EW = 1 if (ret['GPSInfo'][3] == 'E') else -1

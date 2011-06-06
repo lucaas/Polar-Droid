@@ -3,29 +3,32 @@
 {% block content %}
 	<h2>LOGIN</h2>
 	
-	<form method="post" action="{% url 'django.contrib.auth.views.login' %}">
-	{% csrf_token %}
-
-	{{ form.as_p }}
-	<input type="submit" value="login" />
-	<input type="hidden" name="next" value="{{ next }}" />
-	</form>
+	<div class="inset">
+	<p>Do you already have an account on one of these sites? Click the logo to <strong>log in</strong> with it here:</p>
+	<ul class="login">
+		<li class="facebook"><a href="/login/facebook/">Facebook</a></li>
+		<li class="twitter"><a href="/login/twitter/">Twitter</a></li>
+		<li class="google"><a href="/login/google/">Google</a></li>
+		<li class="openid"><a href="#openid">Open ID</a></li>
+	</ul>
+	</div>
 	
-
-	<p class="hr">or</p>
-	<a rel="nofollow" href="/login/facebook/">Facebook</a>
-	<a rel="nofollow" href="/login/twitter/">Twitter</a>
-	<a rel="nofollow" href="/login/google/">Google</a>
-	<a rel="nofollow" href="#openid">Open ID</a>
-	
-	
-      <form action="/login/openid/" method="post">{% csrf_token %}
+	<form id="openid_form" action="/login/openid/" method="post">{% csrf_token %}
         <div>
           <label for="openid_identifier">Open ID:</label>
           <input id="openid_identifier" type="text" value="" name="openid_identifier" />
           <input type="submit" value="Login" />
         </div>
         <p class="helptext">Like your personal <a href="https://www.myopenid.com/" title="My OpenId">myopenid</a></p>
-      </form>
+    </form>
+
+	<form method="post" action="">
+		<p>Or, log in using your username and password:</p>
+		{% csrf_token %}
+
+		{{ form.as_p }}
+		<input type="submit" value="login" />
+		<input type="hidden" name="next" value="{{ next }}" />
+	</form>
 	
 {% endblock %}

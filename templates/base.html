@@ -3,37 +3,57 @@
 <head>
     <meta charset="utf-8" />
     <title>{% block title %}Polar Droid{% endblock %}</title>
-    <meta name="description" content="Description of the content of this web page." />
-	
+	{% block meta %}{% endblock %}
 	<!--[if lt IE 9]>
 	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
-	
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js" type="text/javascript"></script>
+	<script src="/uploads/js/script.js" type="text/javascript"></script>
     <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.3.0/build/cssreset/reset-min.css">
+	<link rel="shortcut icon" href="/uploads/graphics/favicon.png" />
     {% load compress %}
 	{% compress css %}
 	    <link rel="stylesheet" href="/uploads/css/fonts.css" type="text/css" charset="utf-8">
 		<link rel="stylesheet" href="/uploads/css/base.ccss" type="text/css" charset="utf-8">
 	{% endcompress %}
+	
+	<script type="text/javascript">
+		  var _gaq = _gaq || [];
+		  _gaq.push(['_setAccount', 'UA-9278925-7']);
+		  _gaq.push(['_trackPageview']);
+
+		  (function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		  })();
+	</script>
 </head>
 <body>
 <header>
 <nav>
-	<a href="/"><h1>POLAR DROID</h1></a>
+	<a href="/"><h1>POLAR<span class="droid">DROID</span></h1></a>
 	<ul>
 		<li><a href="/browse/">BROWSE</a></li>
-		<li><a href="/upload/">UPLOAD&nbsp;</a></li>
+		<li><a href="/upload/">UPLOAD</a></li>
 		<li><a href="/profile/">PROFILE</a></li>
 	</ul>
 </nav>
-</header>
+
 <div id="bar">
-	{% if is_logged_in %}
-		<a href="/logout/">Logout</a>
+	<div class="dummy_center">
+	{% if request.user.is_authenticated %}
+		<p><a href="/edit_profile/">{{ request.user }}</a>: <a href="/logout/">Logout</a></p>
 	{% else %}
-		<a href="/login/">Login</a>
+		<p><a href="/login/">Login</a></p>
 	{% endif %}
+	</div>
 </div>
+
+</header>
+
+
+
 <div id="content">
 	{% if errors %}
 		<ul class="errorlist">
@@ -46,6 +66,5 @@
 	{% block content %}
 	{% endblock %}
 </div>
-
 </body>
 </html>

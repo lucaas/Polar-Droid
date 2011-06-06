@@ -1,8 +1,23 @@
 {% extends 'base.html' %}
 
 {% block content %}
-	<h2>POLARDROID</h2>
-	<img src="http://placekitten.com/g/880/300" />
-	<img src="http://placekitten.com/g/438/300" />
-	<img src="http://placekitten.com/g/438/300" />
+<h2>{{ welcome|upper }}!</h2>
+<div id="index_box">
+
+	<div id="small_photos_container">
+	{% for img in photos %}
+			<a href="/view/{{ img.id }}/"><img class="small_photo" width="160px" height="160px" alt="{{ img.title }}" src="{{ img.thumb_url }}"  title="{{img.id}};{{img.title}};{{img.user.id}};{{img.user}}" /></a>
+	{% endfor %}
+	</div>
+	
+	<div id="big_photo_container">
+		<img id="big_photo" width="640px" height="640px" alt="{{ photos.4.title }}" src="{{ photos.4.url }}"/>
+
+	</div>
+		<hgroup class="photo_caption">
+			<h3><a href="/view/{{ photos.4.id }}/">{{ photos.4.title }}</a></h3>
+			<h5><a href="/profile/{{ photos.4.user.id }}/">{{ photos.4.user }}</a></h5>
+		</hgroup>
+
+</div>
 {% endblock %}

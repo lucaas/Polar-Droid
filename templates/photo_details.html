@@ -1,0 +1,16 @@
+<div id="details_content" {% if photo.exif and photo.exif.lat %}title="has_map"{% endif %}>
+	<dl>
+		<dt>By:</dt><dd>{{ photo.user }}</dd>
+		<dt>Views:</dt><dd>{{ photo.views_add }}</dd>
+		<dt>Filter used:</dt><dd>{{ photo.filter_used }}</dd>
+		{% if photo.exif %}
+		<dt>Camera:</dt><dd>{{ photo.exif.camera }}</dd>
+		<dt>Date shot:</dt><dd>{{ photo.exif.shot_date }}</dd>
+		<dt>Flash:</dt><dd>{{ photo.exif.flash|yesno:"Fired,No flash,No information"  }}</dd>
+		{% endif %}
+	</dl>
+	{% if photo.exif and photo.exif.lat %}
+	<dt>Map:</dt>
+	<div id="map_canvas" title="{{ photo.exif.lat }},{{ photo.exif.long}}"></div>
+	{% endif %}
+</div>
