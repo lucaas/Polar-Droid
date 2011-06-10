@@ -18,7 +18,7 @@
 	</ul>
 		<p class="pagination">
 	 {% if photos.has_previous %}
-            <a href="{{base_url}}{{ photos.previous_page_number }}/">previous</a>
+            <a href="{{base_url}}{{ photos.previous_page_number }}/">&larr;</a></a>
         {% endif %}
 
         <span class="current">
@@ -26,7 +26,7 @@
         </span>
 
         {% if photos.has_next %}
-            <a href="{{base_url}}{{ photos.next_page_number }}/">next</a>
+            <a href="{{base_url}}{{ photos.next_page_number }}/">&rarr;</a>
        {% endif %}
 	</p>
 	

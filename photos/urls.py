@@ -21,6 +21,7 @@ urlpatterns = patterns('polardroid.photos.views',
 	
     url(r'^view/(\d{1,3})/$', 'view'),
 	url(r'^edit/(\d{1,3})/$', 'edit'),
+	url(r'^delete/(\d{1,3})/$', 'delete'),
 	url(r'^view/(\d{1,3})/details/$', 'details'),
     url(r'^filter/(?P<photo_id>\d{1,3})/(?P<operation>\w+)/$', 'apply_filter'),
     url(r'^revert/(?P<photo_id>\d{1,3})/$', 'revert'),

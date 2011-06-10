@@ -24,7 +24,16 @@ body {
 }
 
 p {
+  color: #676b6f;
   margin-bottom: 25px;
+}
+
+a {
+  color: #4e5255;
+}
+
+a:hover {
+  color: #00bff3;
 }
 
 img {
@@ -170,6 +179,17 @@ h2 {
   font-weight: bold;
 }
 
+.messagelist {
+  background: #87e872;
+  color: #184e0d;
+  width: 620px;
+  padding: 10px;
+  border: 1px solid #62e146;
+  border-radius: 5px;
+  margin: 10px auto;
+  font-weight: bold;
+}
+
 p.hr {
   background: #bbc0c4;
   text-align: center;
@@ -276,6 +296,17 @@ div.toggle_button a:hover {
 p.pagination {
   text-align: center;
   color: #676b6f;
+}
+
+p.pagination a {
+  color: #222222;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 25px;
+}
+
+p.pagination a:hover {
+  color: #00bff3;
 }
 
 div.photo {
@@ -592,6 +623,21 @@ hgroup.photo_caption a:hover {
 
 hgroup.photo_caption h3 {
   font-weight: bold;
+}
+
+.welcome {
+  margin: 0 auto 20px;
+  text-align: center;
+  font-family: KomikaAxisRegular;
+  background: #ffeedd;
+  width: 800px;
+  height: 100px;
+  border-radius: 5px;
+}
+
+.welcome h3 {
+  font-size: 25px;
+  color: #676b6f;
 }
 
 div#index_box {

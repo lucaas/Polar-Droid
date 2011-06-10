@@ -11,6 +11,7 @@ content_bg_color = #cdd2d7
 form_bg_color = #bbc0c4
 bright_bg_color = #e4e9ee
 error_bg_color = #E88772
+message_bg_color = #87E872
 
 large_text_size = 25px
 page_width = 960px
@@ -29,7 +30,13 @@ body:
 	margin: 0 auto
 
 p:
+	color: $dark_text_color
 	margin-bottom: $large_text_size
+	
+a:
+	color: $dark_text_color.darken(10)
+	&:hover:
+		color: $accent_color
 
 img:
 	margin: 0
@@ -157,6 +164,16 @@ h2:
 	border-radius: 5px
 	margin: 10px auto
 	font-weight: bold
+	
+.messagelist:
+	background: $message_bg_color
+	color: $message_bg_color.darken(50)
+	width: 640 - 20px
+	padding: 10px
+	border: 1px solid $message_bg_color.darken(10)
+	border-radius: 5px
+	margin: 10px auto
+	font-weight: bold
 
 p.hr:
 	background: $form_bg_color
@@ -249,6 +266,14 @@ div.toggle_button a:
 p.pagination:
 	text-align: center
 	color: $dark_text_color
+	
+	a:
+		color: #222
+		font-weight: bold
+		text-decoration: none
+		font-size: $large_text_size
+		&:hover:
+			color: $accent_color
 	
 div.photo:
 	z-index: 5
@@ -477,7 +502,7 @@ ul.login:
 	
 hgroup.photo_caption:
 	border-bottom-left-radius: 5px
-	position: relative
+	position: relative	
 	margin-top: -61px
 	padding: 10px
 	height: 38px
@@ -494,6 +519,19 @@ hgroup.photo_caption:
 	h3:
 		font-weight: bold	
 		
+.welcome:
+	margin: 0 auto 20px
+	text-align: center
+	font-family: KomikaAxisRegular
+	background: #fed
+	width: 800px
+	height: 100px
+	border-radius: 5px
+
+	h3:
+		font-size: $large_text_size
+		color: $dark_text_color
+			
 div#index_box:
 	width: 800px
 	height: 640px

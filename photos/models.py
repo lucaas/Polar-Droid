@@ -10,16 +10,8 @@ from PIL.ExifTags import TAGS
 import datetime, hashlib, random
 
 
-def get_random_item(model, max_id=None, count=1):
-	number = 5
-	ids = model.objects.all().values_list('id', flat=True)
-	amount = min(len(ids), number)
-	picked_ids = random.sample(ids, amount)
-	return model.objects.filter(id__in=picked_ids)
-	
-	
-# Create your models here.
 class Photo(models.Model):
+	""" Photo model, contains image paths and various associated info. """
 	title = models.CharField(max_length=50)
 	image = models.ImageField(upload_to="original")
 	md5 = models.CharField(max_length=50, blank=True, null=True)
@@ -119,9 +111,34 @@ class Photo(models.Model):
 				
 admin.site.register(Photo)	
 
+# Additional model methods used...
+
+
+import os                    
+from django.db.models.signals import post_delete
+
+def remove_images(sender, instance, **kwargs):
+	try:
+		os.remove( instance.original_path()	)
+		os.remove( instance.thumb_path() )
+		os.remove( instance.path() )
+	except (IOError, OSError):
+		pass
+		
+post_delete.connect(remove_images, sender=Photo)
+
+
+def get_random_item(model, max_id=None, count=1):
+	number = 5
+	ids = model.objects.all().values_list('id', flat=True)
+	amount = min(len(ids), number)
+	picked_ids = random.sample(ids, amount)
+	return model.objects.filter(id__in=picked_ids)
+	
 
 
 class Exif(models.Model):
+	""" model for exif metadata such as camera model and geolocation """
 	lat = models.FloatField(blank=True, null=True)
 	long = models.FloatField(blank=True, null=True)
 	camera = models.CharField(max_length=100, blank=True, null=True)

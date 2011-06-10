@@ -1,7 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>{{ welcome|upper }}!</h2>
+{% if not request.user.is_authenticated %}
+<div class="welcome">
+	<h3>{{ welcome|upper }}!</h3>
+	<p>Polardroid is a web application which lets you upload, <br />edit and share photos online. <a href="/login/">Get started</a> right away!</p>
+</div>
+{% endif %}
 <div id="index_box">
 
 	<div id="small_photos_container">

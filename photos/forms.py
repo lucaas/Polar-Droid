@@ -7,6 +7,7 @@ class PhotoForm(forms.ModelForm):
 	class Meta:
 		model = Photo
 		exclude = 'md5, user, filtered, filter_used, exif, views'
+		widgets = { 'image': forms.FileInput(attrs={'size':100}), }
 		
 class UserForm(forms.ModelForm):
 	class Meta:

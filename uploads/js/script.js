@@ -45,7 +45,10 @@ $(document).ready(function()
 	$('.pagination a').live('click', function(event){
 		event.preventDefault();
 		var href = $(this).attr("href");
-		history.pushState(href, document.title, href);
+		
+		if (history.pushState) {
+			history.pushState(href, document.title, href);
+		}
 		// ADD SPINNER
 		/*
 		$(document.createElement("img"))
@@ -183,6 +186,11 @@ $(document).ready(function()
 		event.preventDefault();
 		$("#like_holder").slideDown();
 	});
+	
+	$('.delete_button').click(function(){
+		var answer = confirm('Are you sure you want to delete this photo?');
+		return answer; // answer is a boolean
+	}); 
 	
 	
 });

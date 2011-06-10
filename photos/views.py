@@ -17,9 +17,11 @@ from forms import PhotoForm, UserForm
 import Image, ImageOps, ImageFilter
 import filters
 
+
+
 @login_required
 def edit_profile(request):
-	print 'social_auth'
+	""" Edit profile view function. Saves or gets user form. """
 	if request.method == 'POST':
 		form = UserForm(request.POST)
 		if form.is_valid():
@@ -31,6 +33,7 @@ def edit_profile(request):
 	return render_to_response('registration/edit_profile.html', locals(), context_instance=RequestContext(request))
 
 # -- DJANGO SOCIAL AUTH REGISTRATION
+"""
 from social_auth.signals import socialauth_registered
 
 def new_users_handler(sender, user, response, details, **kwargs):
@@ -45,10 +48,11 @@ def new_users_handler(sender, user, response, details, **kwargs):
 	return HttpResponseRedirect('/social_auth/')
 
 socialauth_registered.connect(new_users_handler, sender=None)	
-	
+"""	
 
 @login_required
 def upload(request):
+	""" Upload view function. Saves new photos or display upload form. """
 	if request.method == 'POST':
 		form = PhotoForm(request.POST, request.FILES)
 		if form.is_valid():
@@ -63,16 +67,18 @@ def upload(request):
 	return render_to_response('upload.html', locals(), context_instance=RequestContext(request))
 	
 def index(request):
+	""" Index page. Shows 5 random photos, also displays 'welcome' in a random language"""
 	photos = get_random_item(Photo, count=5)
 	welcome = random.choice([u'Salaam',u'Dobrodošli',u'Vítáme te',u'Velkommen',u'Welkom',u'Bienvenue',u'Wolkom',u'Willkommen',u'Aloha',u'Shalom',u'Benvenuto',u'Bem-vindo',u'Bienvenido',u'Välkommen',u'Mabuhay',u'Swaagatham',u'Merhaba'])
 	return render_to_response('index.html', locals())
 
 @login_required
 def profile(request, user_id="", page=1):
-
+	""" Profile page. shows the user's photos with pagination """
 	user = None
 	errors = []
 	photos = []	
+	show_upload_link = False
 	
 	if not user_id:
 		user = request.user
@@ -90,6 +96,9 @@ def profile(request, user_id="", page=1):
 		if not photo_list:
 			error = "%s has not uploaded any photos yet." % user.username
 			errors.append(error)
+			if user == request.user:
+				show_upload_link = True
+				
 	paginator = Paginator(photo_list, 3) # Show 25 contacts per page
 	
 	try:
@@ -109,9 +118,34 @@ def profile(request, user_id="", page=1):
 	
 	
 def view(request, photo_id):
-	photo = Photo.objects.get(id=photo_id)
-	owner = True if (photo.user == request.user) else False
+	errors = []
+	try:
+		photo = Photo.objects.get(id=photo_id)
+		owner = True if (photo.user == request.user) else False
+	except Photo.DoesNotExist:
+		errors.append('No such photo exists.')
 	return render_to_response('view.html', locals(), context_instance=RequestContext(request))
+
+@login_required	
+def delete(request, photo_id):
+	errors = []
+	messages = []
+	photo = None
+	
+	try:
+		photo = Photo.objects.get(id=photo_id)
+	except Photo.DoesNotExist:
+		errors.append('No such photo exists.')
+	if photo:	
+		if (photo.user == request.user):
+			photo.delete()
+			messages.append('Photo deleted successfully.')
+			return render_to_response('base.html', locals(), context_instance=RequestContext(request))
+		else:
+			errors.append('You don\'t have access to delete that photo.')
+			
+	return render_to_response('view.html', locals(), context_instance=RequestContext(request))
+
 
 def details(request, photo_id):
 	photo = Photo.objects.get(id=photo_id)

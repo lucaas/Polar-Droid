@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
+	{% if show_upload_link %}
+	<p class="messagelist">Get started by <a href="/upload/">upload a photo</a> right away.</p>
+	{% else %}
 	<h2>{% if user.first_name %}
 				{{ user.first_name|upper }}'S
 			{% else %}
@@ -8,4 +11,5 @@
 			{% endif %}LATEST PHOTOS
 	</h2>
 	{% include "photolist.html" %}
+	{% endif %}
 {% endblock %}
